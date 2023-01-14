@@ -1,3 +1,5 @@
+const prompt = require("prompt-sync")({ sigint: true });
+
 class Contact {
     constructor(firstName, lastName, phoneNumber, emailId, area, city, state, zip) {
         this.firstName = firstName;
@@ -15,7 +17,21 @@ class Contact {
     }
 }
 
-
 let addressBook = new Array();
-let contact = new Contact("priyanka", "shinde", 9518905320, "pshinde@gmail.com", "bhugaon", "pune", "maharashtra", 412115);
+function createContact() {
+    let firstName = prompt("Enter firstname :");
+    let lastName = prompt("Enter lastName :");
+    let phoneNumber = prompt("Enter phoneNumber :");
+    let emailId = prompt("Enter emailId :");
+    let area = prompt("Enter area :");
+    let city = prompt("Enter city :");
+    let state = prompt("Enter state :");
+    let zip = prompt("Enter zip :");
+    let contact = new Contact(firstName, lastName, phoneNumber, emailId, area, city, state, zip);
+    return contact;
+}
+
+let contact = createContact();
+addressBook.push(contact);
+console.log(addressBook);
 
