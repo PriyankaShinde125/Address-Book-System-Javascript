@@ -244,9 +244,14 @@ function deleteContact() {
     console.log(addressBook);
 }
 
+function getAddressBookContactCount(){
+    let numberOfRecords = addressBook.reduce(((totalRecords) => totalRecords + 1), 0)
+    console.log("Total number of records "+numberOfRecords);
+}
+
 function menu() {
     while (true) {
-        let choice = prompt("1 : add 2 : edit 3 : Print all contacts 4 : Delete contact 0 : exit ");
+        let choice = prompt("1 : add 2 : edit 3 : Print all contacts 4 : Delete contact 5 : Get total count of contacts 0 : exit ");
         let ch = parseInt(choice);
         switch (ch) {
             case 1: addNewContact();
@@ -257,6 +262,8 @@ function menu() {
             case 3: console.log(addressBook);
                 break;
             case 4: deleteContact();
+                break;
+            case 5: getAddressBookContactCount();
                 break;
             case 0: return;
             default:
