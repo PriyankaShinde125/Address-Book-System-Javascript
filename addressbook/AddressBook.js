@@ -2,6 +2,7 @@ const prompt = require("prompt-sync")({ sigint: true });
 
 let addressBook = new Array();
 
+
 class Contact {
     constructor(firstName, lastName, phoneNumber, emailId, area, city, state, zip) {
         this.firstName = firstName;
@@ -83,6 +84,9 @@ class Contact {
     }
 }
 
+let c = new Contact("Priyanka", "Shinde", "+91 9518905320", "pshinde@gmail.com", "bhugaon", "pune", "mah", 412115);
+addressBook.push(c);
+
 function inputName(msg) {
     let name = prompt(msg);
     if (isValidName(name)) {
@@ -136,6 +140,10 @@ function inputZip() {
 function createContact() {
     let firstName = inputName("Enter first name");
     let lastName = inputName("Enter last name");
+    if (isExist(firstName, lastName) != undefined) {
+        console.log("Contact with same name already exist");
+        return;
+    }
     let phoneNumber = inputPhoneNumber();
     let emailId = inputEmailId();
     let area = inputAddressEntities("Enter area");
@@ -173,12 +181,13 @@ function isValidZip(zip) {
 
 function addNewContact() {
     let contact = createContact();
-    addressBook.push(contact);
+    if (contact != undefined)
+        addressBook.push(contact);
 }
 
 function editContact() {
-    let firstNameInput = prompt("Enter first name").toLowerCase();
-    let lastNameInput = prompt("Enter last name").toLowerCase();
+    let firstNameInput = prompt("Enter first name");
+    let lastNameInput = prompt("Enter last name");
     let contact = isExist(firstNameInput, lastNameInput);
     if (contact == undefined) {
         console.log("contact not found");
@@ -227,13 +236,13 @@ function editContact() {
 }
 
 function isExist(firstNameInput, lastNameInput) {
-    let contact = addressBook.find(element => element.getFirstName.toLowerCase() === firstNameInput && element.getLastName.toLowerCase() === lastNameInput);
+    let contact = addressBook.find(element => element.getFirstName.toLowerCase() === firstNameInput.toLowerCase() && element.getLastName.toLowerCase() === lastNameInput.toLowerCase());
     return contact;
 }
 
 function deleteContact() {
-    let firstNameInput = prompt("Enter first name").toLowerCase();
-    let lastNameInput = prompt("Enter last name").toLowerCase();
+    let firstNameInput = prompt("Enter first name");
+    let lastNameInput = prompt("Enter last name");
     let contact = isExist(firstNameInput, lastNameInput);
     if (contact == undefined) {
         console.log("contact not found");
@@ -244,9 +253,9 @@ function deleteContact() {
     console.log(addressBook);
 }
 
-function getAddressBookContactCount(){
+function getAddressBookContactCount() {
     let numberOfRecords = addressBook.reduce(((totalRecords) => totalRecords + 1), 0)
-    console.log("Total number of records "+numberOfRecords);
+    console.log("Total number of records " + numberOfRecords);
 }
 
 function menu() {
