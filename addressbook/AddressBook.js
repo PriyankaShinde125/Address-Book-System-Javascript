@@ -18,7 +18,6 @@ class Contact {
         return this.firstName;
     }
 
-
     set setFirstName(firstName) {
         this.firstName = firstName;
     }
@@ -232,22 +231,37 @@ function isExist(firstNameInput, lastNameInput) {
     return contact;
 }
 
-function menu(){
-while (true) {
-    let choice = prompt("1 : add 2 : edit 3 : Print all contacts 0 : exit ");
-    let ch = parseInt(choice);
-    switch (ch) {
-        case 1: addNewContact();
-            console.log(addressBook);
-            break;
-        case 2: editContact();
-            break;
-        case 3: console.log(addressBook);
-            break;
-        case 0: return;
-        default:
+function deleteContact() {
+    let firstNameInput = prompt("Enter first name").toLowerCase();
+    let lastNameInput = prompt("Enter last name").toLowerCase();
+    let contact = isExist(firstNameInput, lastNameInput);
+    if (contact == undefined) {
+        console.log("contact not found");
+        return;
     }
+    addressBook.splice(addressBook.indexOf(contact), 1);
+    console.log("Contact deleted");
+    console.log(addressBook);
 }
+
+function menu() {
+    while (true) {
+        let choice = prompt("1 : add 2 : edit 3 : Print all contacts 4 : Delete contact 0 : exit ");
+        let ch = parseInt(choice);
+        switch (ch) {
+            case 1: addNewContact();
+                console.log(addressBook);
+                break;
+            case 2: editContact();
+                break;
+            case 3: console.log(addressBook);
+                break;
+            case 4: deleteContact();
+                break;
+            case 0: return;
+            default:
+        }
+    }
 }
 
 menu();
