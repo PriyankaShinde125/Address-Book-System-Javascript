@@ -2,7 +2,6 @@ const prompt = require("prompt-sync")({ sigint: true });
 
 let addressBook = new Array();
 
-
 class Contact {
     constructor(firstName, lastName, phoneNumber, emailId, area, city, state, zip) {
         this.firstName = firstName;
@@ -83,9 +82,6 @@ class Contact {
         return '{ First name = ' + this.firstName + '  Lastname = ' + this.lastName + '  Phone number = ' + this.phoneNumber + ' Email Id = ' + this.emailId + '  Address = ' + this.area + ' , ' + this.city + ' , ' + this.state + ' , ' + this.zip + '}';
     }
 }
-
-let c = new Contact("Priyanka", "Shinde", "+91 9518905320", "pshinde@gmail.com", "bhugaon", "pune", "mah", 412115);
-addressBook.push(c);
 
 function inputName(msg) {
     let name = prompt(msg);
@@ -258,9 +254,32 @@ function getAddressBookContactCount() {
     console.log("Total number of records " + numberOfRecords);
 }
 
+function searchContactByCityOrState() {
+    let choice = Number(prompt("1 : Search contact by city 2 : search contact by state"));
+    let filteredArray;
+    switch (choice) {
+        case 1: let city = prompt("Enter city");
+            filteredArray = addressBook.filter(element => searchByCityOrStateCallback(choice, city, element));
+            console.log(filteredArray);
+            break;
+        case 2: let state = prompt("Enter state");
+            filteredArray = addressBook.filter(element => searchByCityOrStateCallback(choice, state, element));
+            console.log(filteredArray);
+            break;
+        default: console.log("Invalid input");
+    }
+}
+
+function searchByCityOrStateCallback(choice, cityOrState, contact) {
+    if (choice === 1)
+        return contact.city == cityOrState;
+    else
+        return contact.state == cityOrState;
+}
+
 function menu() {
     while (true) {
-        let choice = prompt("1 : add 2 : edit 3 : Print all contacts 4 : Delete contact 5 : Get total count of contacts 0 : exit ");
+        let choice = prompt("1 : add 2 : edit 3 : Print all contacts 4 : Delete contact 5 : Get total count of contacts 6 : Search contact by city or state 0 : exit ");
         let ch = parseInt(choice);
         switch (ch) {
             case 1: addNewContact();
@@ -273,6 +292,8 @@ function menu() {
             case 4: deleteContact();
                 break;
             case 5: getAddressBookContactCount();
+                break;
+            case 6: searchContactByCityOrState();
                 break;
             case 0: return;
             default:
