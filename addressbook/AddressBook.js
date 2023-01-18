@@ -323,6 +323,17 @@ function getCityOrStateWiseContactCount() {
     }
 }
 
+function sortAddressBookByContactName() {
+    addressBook.sort(function (a, b) {
+        let x = a.getFirstName.toLowerCase() + " " + a.getLastName.toLowerCase();
+        let y = b.getFirstName.toLowerCase() + " " + b.getLastName.toLowerCase();
+        if (x < y) { return -1; }
+        if (x > y) { return 1; }
+        return 0;
+    });
+    console.log(addressBook);
+}
+
 function menu() {
     while (true) {
         console.log("\n1 : Add new contact to address book " +
@@ -333,6 +344,7 @@ function menu() {
             "\n6 : Search person by city or state " +
             "\n7 : View contacts by city or state" +
             "\n8 : Get citywise and statewise contact count" +
+            "\n9 : Sort address book by contact name" +
             "\n0 : Exit\n");
         let choice = prompt("enter your choice");
         let ch = parseInt(choice);
@@ -354,6 +366,8 @@ function menu() {
                 break;
             case 8: getCityOrStateWiseContactCount();
                 break;
+            case 9: sortAddressBookByContactName();
+                break;
             case 0: return;
             default:
         }
@@ -361,4 +375,3 @@ function menu() {
 }
 
 menu();
-
