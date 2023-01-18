@@ -334,6 +334,38 @@ function sortAddressBookByContactName() {
     console.log(addressBook);
 }
 
+function sortContactsByCityStateOrZip() {
+    let choice = Number(prompt("1 : Citiwise sort 2 : Statewise sort 3 : Zipwise sort "));
+    switch (choice) {
+        case 1: addressBook.sort(function (a, b) {
+            let x = a.getCity.toLowerCase();
+            let y = b.getCity.toLowerCase();
+            if (x < y) { return -1; }
+            if (x > y) { return 1; }
+            return 0;
+        });
+            break;
+        case 2: addressBook.sort(function (a, b) {
+            let x = a.getState.toLowerCase();
+            let y = b.getState.toLowerCase();
+            if (x < y) { return -1; }
+            if (x > y) { return 1; }
+            return 0;
+        });
+            break;
+        case 3: addressBook.sort(function (a, b) {
+            let x = a.getZip;
+            let y = b.getZip;
+            if (x < y) { return -1; }
+            if (x > y) { return 1; }
+            return 0;
+        });
+            break;
+        default: console.log("Invalid choice");
+    }
+    console.log(addressBook);
+}
+
 function menu() {
     while (true) {
         console.log("\n1 : Add new contact to address book " +
@@ -345,6 +377,7 @@ function menu() {
             "\n7 : View contacts by city or state" +
             "\n8 : Get citywise and statewise contact count" +
             "\n9 : Sort address book by contact name" +
+            "\n10 : Sort contacts by city state or zip" +
             "\n0 : Exit\n");
         let choice = prompt("enter your choice");
         let ch = parseInt(choice);
@@ -367,6 +400,8 @@ function menu() {
             case 8: getCityOrStateWiseContactCount();
                 break;
             case 9: sortAddressBookByContactName();
+                break;
+            case 10: sortContactsByCityStateOrZip();
                 break;
             case 0: return;
             default:
