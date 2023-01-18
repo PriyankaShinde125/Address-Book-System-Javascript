@@ -277,9 +277,40 @@ function searchByCityOrStateCallback(choice, cityOrState, contact) {
         return contact.state == cityOrState;
 }
 
+function viewByCityOrState() {
+    let choice = Number(prompt("1 : view contact by city 2 : view contact by state"));
+    let filteredMap;
+    switch (choice) {
+        case 1:
+            filteredMap = new Map(Object.entries(addressBook.reduce((city, contact) => cityOrStateWiseContactCollector(choice, city, contact), {})));
+            console.log(filteredMap);
+            break;
+        case 2:
+            filteredMap = new Map(Object.entries(addressBook.reduce((state, contact) => cityOrStateWiseContactCollector(choice, state, contact), {})));
+            console.log(filteredMap);
+            break;
+        default: console.log("Invalid input");
+    }
+}
+
+function cityOrStateWiseContactCollector(choice, cityOrState, contact) {
+    if (choice === 1)
+        return ((cityOrState[contact.getCity] = cityOrState[contact.getCity] || []).push(contact), cityOrState);
+    else
+        return ((cityOrState[contact.getState] = cityOrState[contact.getState] || []).push(contact), cityOrState);
+}
+
 function menu() {
     while (true) {
-        let choice = prompt("1 : add 2 : edit 3 : Print all contacts 4 : Delete contact 5 : Get total count of contacts 6 : Search contact by city or state 0 : exit ");
+        console.log("\n1 : Add new contact to address book " +
+        "\n2 : Edit contact " +
+        "\n3 : Print address book " +
+        "\n4 : Delete contact" +
+        "\n5 : Get contacts count" +
+        "\n6 : Search person by city or state " +
+        "\n7 : view contacts by city or state" +
+        "\n0 : Exit\n");
+        let choice = prompt("enter your choice");
         let ch = parseInt(choice);
         switch (ch) {
             case 1: addNewContact();
@@ -294,6 +325,8 @@ function menu() {
             case 5: getAddressBookContactCount();
                 break;
             case 6: searchContactByCityOrState();
+                break;
+            case 7: viewByCityOrState();
                 break;
             case 0: return;
             default:
