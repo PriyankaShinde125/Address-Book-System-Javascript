@@ -282,15 +282,23 @@ function viewByCityOrState() {
     let filteredMap;
     switch (choice) {
         case 1:
-            filteredMap = new Map(Object.entries(addressBook.reduce((city, contact) => cityOrStateWiseContactCollector(choice, city, contact), {})));
+            filteredMap = getCityWiseContacts(choice);
             console.log(filteredMap);
             break;
         case 2:
-            filteredMap = new Map(Object.entries(addressBook.reduce((state, contact) => cityOrStateWiseContactCollector(choice, state, contact), {})));
+            filteredMap = getStateWiseContacts(choice);
             console.log(filteredMap);
             break;
         default: console.log("Invalid input");
     }
+}
+
+function getCityWiseContacts(choice) {
+    return new Map(Object.entries(addressBook.reduce((city, contact) => cityOrStateWiseContactCollector(choice, city, contact), {})));
+}
+
+function getStateWiseContacts(choice) {
+    return new Map(Object.entries(addressBook.reduce((state, contact) => cityOrStateWiseContactCollector(choice, state, contact), {})));
 }
 
 function cityOrStateWiseContactCollector(choice, cityOrState, contact) {
@@ -300,16 +308,32 @@ function cityOrStateWiseContactCollector(choice, cityOrState, contact) {
         return ((cityOrState[contact.getState] = cityOrState[contact.getState] || []).push(contact), cityOrState);
 }
 
+function getCityOrStateWiseContactCount() {
+    let choice = Number(prompt("1 : Citiwise contact count 2 : Statewise contact count "));
+    let filteredMap;
+    switch (choice) {
+        case 1: filteredMap = getCityWiseContacts(choice);
+            filteredMap.forEach((value, key) => console.log(key + "==" + value.reduce(((totalRecords) => totalRecords + 1), 0)));
+            break;
+        case 2: filteredMap = getStateWiseContacts(choice);
+            filteredMap.forEach((value, key) => console.log(key + "==" + value.reduce(((totalRecords) => totalRecords + 1), 0)));
+            break;
+        default:
+            console.log("Invalid choice");
+    }
+}
+
 function menu() {
     while (true) {
         console.log("\n1 : Add new contact to address book " +
-        "\n2 : Edit contact " +
-        "\n3 : Print address book " +
-        "\n4 : Delete contact" +
-        "\n5 : Get contacts count" +
-        "\n6 : Search person by city or state " +
-        "\n7 : view contacts by city or state" +
-        "\n0 : Exit\n");
+            "\n2 : Edit contact " +
+            "\n3 : Print address book " +
+            "\n4 : Delete contact" +
+            "\n5 : Get contacts count" +
+            "\n6 : Search person by city or state " +
+            "\n7 : View contacts by city or state" +
+            "\n8 : Get citywise and statewise contact count" +
+            "\n0 : Exit\n");
         let choice = prompt("enter your choice");
         let ch = parseInt(choice);
         switch (ch) {
@@ -327,6 +351,8 @@ function menu() {
             case 6: searchContactByCityOrState();
                 break;
             case 7: viewByCityOrState();
+                break;
+            case 8: getCityOrStateWiseContactCount();
                 break;
             case 0: return;
             default:
